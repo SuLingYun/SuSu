@@ -1,0 +1,676 @@
+<!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8"/>
+        <title>Centos7.9升级内核版本</title>
+        
+        <style>
+          html, body { margin: 0; padding: 0; background-color: #ffffff; }
+          .markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }
+          @media (max-width: 767px) { .markdown-body { padding: 15px; } }
+          .markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #24292e;
+  font-family: system-ui, -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: initial;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr:after,
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body :checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body:after,
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  clear: both;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body details,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-size: .85em;
+  color: #6a737d;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li, .markdown-body li > ul {
+  margin-top: .25em;
+}
+
+.markdown-body ul li.task-list-item {
+  position: relative;
+  appearance: none;
+  list-style: none;
+}
+
+.markdown-body ul li.task-list-item.checked {
+  text-decoration: line-through;
+  color: #bdbdbd;
+}
+
+.markdown-body ul li.task-list-item::before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  background-color: #fff;
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  border-radius: 2px;
+  border: 2px solid #757575;
+}
+
+.markdown-body ul li.task-list-item.checked::before {
+  background-color: #1976d2;
+  border-color: #1976d2;
+}
+
+.markdown-body ul li.task-list-item.checked::after {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 5px;
+  width: 4px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: initial;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.markdown-body mark {
+  background-color: #fff8c5;
+}
+          .ace-tm{ background: transparent!important; }.ace_static_highlight{ font-size: unset!important; }.ace_static_highlight {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'Droid Sans Mono', monospace;font-size: 12px;white-space: pre-wrap}.ace_static_highlight .ace_gutter {width: 2em;text-align: right;padding: 0 3px 0 0;margin-right: 3px;contain: none;}.ace_static_highlight.ace_show_gutter .ace_line {padding-left: 2.6em;}.ace_static_highlight .ace_line { position: relative; }.ace_static_highlight .ace_gutter-cell {-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;top: 0;bottom: 0;left: 0;position: absolute;}.ace_static_highlight .ace_gutter-cell:before {content: counter(ace_line, decimal);counter-increment: ace_line;}.ace_static_highlight {counter-reset: ace_line;}.ace-tm .ace_gutter {background: #f0f0f0;color: #333;}.ace-tm .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-tm .ace_fold {background-color: #6B72E6;}.ace-tm {background-color: #FFFFFF;color: black;}.ace-tm .ace_cursor {color: black;}.ace-tm .ace_invisible {color: rgb(191, 191, 191);}.ace-tm .ace_storage,.ace-tm .ace_keyword {color: blue;}.ace-tm .ace_constant {color: rgb(197, 6, 11);}.ace-tm .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-tm .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-tm .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-tm .ace_invalid {background-color: rgba(255, 0, 0, 0.1);color: red;}.ace-tm .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-tm .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-tm .ace_support.ace_type,.ace-tm .ace_support.ace_class {color: rgb(109, 121, 222);}.ace-tm .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-tm .ace_string {color: rgb(3, 106, 7);}.ace-tm .ace_comment {color: rgb(76, 136, 107);}.ace-tm .ace_comment.ace_doc {color: rgb(0, 102, 255);}.ace-tm .ace_comment.ace_doc.ace_tag {color: rgb(128, 159, 191);}.ace-tm .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-tm .ace_variable {color: rgb(49, 132, 149);}.ace-tm .ace_xml-pe {color: rgb(104, 104, 91);}.ace-tm .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-tm .ace_heading {color: rgb(12, 7, 255);}.ace-tm .ace_list {color:rgb(185, 6, 144);}.ace-tm .ace_meta.ace_tag {color:rgb(0, 22, 142);}.ace-tm .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-tm .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-tm.ace_multiselect .ace_selection.ace_start {box-shadow: 0 0 3px 0px white;}.ace-tm .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-tm .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-tm .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-tm .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-tm .ace_gutter-active-line {background-color : #dcdcdc;}.ace-tm .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-tm .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}
+        </style>
+      </head>
+      <body>
+        <article class="markdown-body">
+          <h1>Centos7.9升级内核版本【三种方法】</h1>
+<h2>方法一、YUM在线升级</h2>
+<h3>1.查看内核版本</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>uname</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>r</span>
+</div></div></div></code></pre>
+<h3>2.导入ELRepo软件仓库的公共秘钥</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>rpm</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_identifier'>import</span> <span class='ace_identifier'>https</span>:<span class='ace_keyword ace_operator'>//</span><span class='ace_identifier'>www</span>.<span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>org</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>RPM</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>GPG</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>KEY</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>org</span>
+</div></div></div></code></pre>
+<h3>3.安装ELRepo软件仓库的yum源</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>https</span>:<span class='ace_keyword ace_operator'>//</span><span class='ace_identifier'>www</span>.<span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>org</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>elrepo</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>release</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>7.</span><span class='ace_identifier'>el7</span>.<span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>noarch</span>.<span class='ace_identifier'>rpm</span>
+</div></div></div></code></pre>
+<h3>4.查看有哪些内核版本可供安装</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_variable'>disablerepo</span><span class='ace_keyword ace_operator'>=</span><span class='ace_string ace_start'>&#34;</span><span class='ace_string'>*</span><span class='ace_string ace_end'>&#34;</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_variable'>enablerepo</span><span class='ace_keyword ace_operator'>=</span><span class='ace_string ace_start'>&#34;</span><span class='ace_string'>elrepo-kernel</span><span class='ace_string ace_end'>&#34;</span> <span class='ace_identifier'>list</span> <span class='ace_identifier'>available</span>
+</div></div></div></code></pre>
+<h3>5.开始安装</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_variable'>enablerepo</span><span class='ace_keyword ace_operator'>=</span><span class='ace_identifier'>elrepo</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>kernel</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>ml</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>主</span><span class='ace_cjk' style='width:NaNpx'>线</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>该</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>比</span><span class='ace_cjk' style='width:NaNpx'>较</span><span class='ace_cjk' style='width:NaNpx'>激</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>慎</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>选</span><span class='ace_cjk' style='width:NaNpx'>择</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_variable'>enablerepo</span><span class='ace_keyword ace_operator'>=</span><span class='ace_identifier'>elrepo</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>kernel</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>lt</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>长</span><span class='ace_cjk' style='width:NaNpx'>期</span><span class='ace_cjk' style='width:NaNpx'>稳</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>稳</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>靠</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div></div></div></code></pre>
+<h3>6.设置 GRUB 默认的内核版本</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>启</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>方</span><span class='ace_cjk' style='width:NaNpx'>式</span><span class='ace_cjk' style='width:NaNpx'>属</span><span class='ace_cjk' style='width:NaNpx'>于</span><span class='ace_cjk' style='width:NaNpx'>哪</span><span class='ace_cjk' style='width:NaNpx'>种</span><span class='ace_cjk' style='width:NaNpx'>：</span>
+</div><div class='ace_line'><span class='ace_paren ace_lparen'>[</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>d</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>sys</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>firmware</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>efi</span> <span class='ace_paren ace_rparen'>]</span> <span class='ace_keyword ace_operator'>&#38;&#38;</span> <span class='ace_support ace_function ace_builtin'>echo</span> <span class='ace_identifier'>UEFI</span> <span class='ace_keyword ace_operator'>||</span> <span class='ace_support ace_function ace_builtin'>echo</span> <span class='ace_identifier'>BIOS</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>BIOS</span><span class='ace_cjk' style='width:NaNpx'>方</span><span class='ace_cjk' style='width:NaNpx'>式</span><span class='ace_cjk' style='width:NaNpx'>启</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>：</span>
+</div><div class='ace_line'><span class='ace_identifier'>awk</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>F</span><span class='ace_constant'>\&#39;</span> <span class='ace_string ace_start'>&#39;</span><span class='ace_string'>$1==&#34;menuentry &#34; {print i++ &#34; : &#34; $2}</span><span class='ace_string ace_end'>&#39;</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>etc</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>grub2</span>.<span class='ace_identifier'>cfg</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div><div class='ace_line'><span class='ace_identifier'>grub2</span><span class='ace_keyword ace_operator'>-</span><span class='ace_support ace_function ace_builtin'>set</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>default</span> <span class='ace_constant ace_numeric'>0</span> <span class='ace_cjk' style='width:NaNpx'>　</span><span class='ace_cjk' style='width:NaNpx'>　</span><span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>页</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>第</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>将</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>为</span><span class='ace_cjk' style='width:NaNpx'>默</span><span class='ace_cjk' style='width:NaNpx'>认</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div><div class='ace_line'><span class='ace_identifier'>grub2</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>mkconfig</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>o</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>boot</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>grub2</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>grub</span>.<span class='ace_identifier'>cfg</span><span class='ace_cjk' style='width:NaNpx'>　</span><span class='ace_cjk' style='width:NaNpx'>　</span><span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>新</span><span class='ace_cjk' style='width:NaNpx'>创</span><span class='ace_cjk' style='width:NaNpx'>建</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>UEFI</span><span class='ace_cjk' style='width:NaNpx'>方</span><span class='ace_cjk' style='width:NaNpx'>式</span><span class='ace_cjk' style='width:NaNpx'>启</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>：</span>
+</div><div class='ace_line'><span class='ace_identifier'>cat</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>boot</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>efi</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>EFI</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>centos</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>grub</span>.<span class='ace_identifier'>cfg</span> <span class='ace_keyword ace_operator'>|</span><span class='ace_identifier'>grep</span> <span class='ace_string ace_start'>&#34;</span><span class='ace_string'>menuentry &#39;CentOS Linux</span><span class='ace_string ace_end'>&#34;</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div><div class='ace_line'><span class='ace_identifier'>grub2</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>mkconfig</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>o</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>boot</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>efi</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>EFI</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>centos</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>grub</span>.<span class='ace_identifier'>cfg</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>新</span><span class='ace_cjk' style='width:NaNpx'>创</span><span class='ace_cjk' style='width:NaNpx'>建</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span>
+</div><div class='ace_line'><span class='ace_identifier'>grub2</span><span class='ace_keyword ace_operator'>-</span><span class='ace_support ace_function ace_builtin'>set</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>default</span> <span class='ace_string ace_start'>&#39;</span><span class='ace_string'>CentOS Linux (5.17.4-1.el7.elrepo.x86_64) 7 (Core)</span><span class='ace_string ace_end'>&#39;</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>默</span><span class='ace_cjk' style='width:NaNpx'>认</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div></div></div></code></pre>
+<h3>7.删除旧内核</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>rpm</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>qa</span> <span class='ace_keyword ace_operator'>|</span><span class='ace_identifier'>grep</span> <span class='ace_identifier'>kernel</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>remove</span> <span class='ace_identifier'>kernel</span> <span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>tools</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>根</span><span class='ace_cjk' style='width:NaNpx'>据</span><span class='ace_cjk' style='width:NaNpx'>需</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>删</span><span class='ace_cjk' style='width:NaNpx'>除</span><span class='ace_cjk' style='width:NaNpx'>对</span><span class='ace_cjk' style='width:NaNpx'>应</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div></div></div></code></pre>
+<br/>
+<h2>方法二、离线下载内核rpm包升级</h2>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>https</span>:<span class='ace_keyword ace_operator'>//</span><span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>org</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>linux</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>el7</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>x86_64</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>RPMS</span><span class='ace_keyword ace_operator'>/</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>载</span><span class='ace_cjk' style='width:NaNpx'>需</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div><div class='ace_line'><span class='ace_identifier'>rpm</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>ivh</span> <span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>lt</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.4.95</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>1.</span><span class='ace_identifier'>el7</span>.<span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>x86_64</span>.<span class='ace_identifier'>rpm</span> <span class='ace_identifier'>kernel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>lt</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>devel</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.4.95</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>1.</span><span class='ace_identifier'>el7</span>.<span class='ace_identifier'>elrepo</span>.<span class='ace_identifier'>x86_64</span>.<span class='ace_identifier'>rpm</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>包</span>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>照</span><span class='ace_cjk' style='width:NaNpx'>方</span><span class='ace_cjk' style='width:NaNpx'>法</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>默</span><span class='ace_cjk' style='width:NaNpx'>认</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span>
+</div></div></div></code></pre>
+<br/>
+<h2>方法三、编译安装、并制作RPM包</h2>
+<h3>1.kernel官网下载内核</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>https</span>:<span class='ace_keyword ace_operator'>//</span><span class='ace_identifier'>www</span>.<span class='ace_identifier'>kernel</span>.<span class='ace_identifier'>org</span><span class='ace_keyword ace_operator'>/</span>
+</div><div class='ace_line'><span class='ace_identifier'>longterm</span>:   <span class='ace_constant ace_numeric'>5.15.35</span> <span class='ace_constant ace_numeric'>2022</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>04</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>20</span>  <span class='ace_paren ace_lparen'>[</span><span class='ace_identifier'>tarball</span><span class='ace_paren ace_rparen'>]</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>般</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>载</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>长</span><span class='ace_cjk' style='width:NaNpx'>期</span><span class='ace_cjk' style='width:NaNpx'>稳</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>版</span>
+</div></div></div></code></pre>
+<h3>2.上传并解压内核文件</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>tar</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>Jxf</span> <span class='ace_identifier'>linux</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.15.35</span>.<span class='ace_identifier'>tar</span>.<span class='ace_identifier'>xz</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>想</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>解</span><span class='ace_cjk' style='width:NaNpx'>压</span> <span class='ace_identifier'>tar</span>.<span class='ace_identifier'>xz</span> <span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>件</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>使</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_identifier'>tar</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>xf</span><span class='ace_cjk' style='width:NaNpx'>命</span><span class='ace_cjk' style='width:NaNpx'>令</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>加</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>压</span><span class='ace_cjk' style='width:NaNpx'>缩</span><span class='ace_cjk' style='width:NaNpx'>包</span><span class='ace_cjk' style='width:NaNpx'>名</span><span class='ace_cjk' style='width:NaNpx'>字</span><span class='ace_cjk' style='width:NaNpx'>即</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div></div></div></code></pre>
+<h3>3.安装依赖包</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>elfutils</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>libelf</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>devel</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>openssl</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>devel</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>groupinstall</span> <span class='ace_string ace_start'>&#34;</span><span class='ace_string'>development tools</span><span class='ace_string ace_end'>&#34;</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>发</span><span class='ace_cjk' style='width:NaNpx'>工</span><span class='ace_cjk' style='width:NaNpx'>具</span><span class='ace_cjk' style='width:NaNpx'>包</span><span class='ace_cjk' style='width:NaNpx'>组</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>ncurses</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>devel</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_identifier'>ncurse</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>devel</span><span class='ace_cjk' style='width:NaNpx'>包</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>make</span> <span class='ace_identifier'>menuconfig</span> <span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>界</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>窗</span><span class='ace_cjk' style='width:NaNpx'>口</span><span class='ace_cjk' style='width:NaNpx'>依</span><span class='ace_cjk' style='width:NaNpx'>赖</span><span class='ace_cjk' style='width:NaNpx'>包</span><span class='ace_paren ace_rparen'>)</span>
+</div></div></div></code></pre>
+<h3>4.由于编译要求gcc版本必须大于5.1.0，所以需要升级gcc版本</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_identifier'>centos</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>release</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>scl</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>centos</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>release</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>scl</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_identifier'>devtoolset</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>注</span><span class='ace_cjk' style='width:NaNpx'>意</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>如</span><span class='ace_cjk' style='width:NaNpx'>果</span><span class='ace_cjk' style='width:NaNpx'>想</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_constant ace_numeric'>7.</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>改</span><span class='ace_cjk' style='width:NaNpx'>成</span><span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>7</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>gcc</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>此</span><span class='ace_cjk' style='width:NaNpx'>类</span><span class='ace_cjk' style='width:NaNpx'>推</span>
+</div><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>8</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>gcc</span><span class='ace_keyword ace_operator'>*</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>激</span><span class='ace_cjk' style='width:NaNpx'>活</span><span class='ace_cjk' style='width:NaNpx'>对</span><span class='ace_cjk' style='width:NaNpx'>应</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_identifier'>devtoolset</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>所</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>你</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>次</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>多</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_identifier'>devtoolset</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>需</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>候</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>条</span><span class='ace_cjk' style='width:NaNpx'>命</span><span class='ace_cjk' style='width:NaNpx'>令</span><span class='ace_cjk' style='width:NaNpx'>切</span><span class='ace_cjk' style='width:NaNpx'>换</span><span class='ace_cjk' style='width:NaNpx'>到</span><span class='ace_cjk' style='width:NaNpx'>对</span><span class='ace_cjk' style='width:NaNpx'>应</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span>
+</div><div class='ace_line'><span class='ace_identifier'>scl</span> <span class='ace_support ace_function ace_builtin'>enable</span> <span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>8</span> <span class='ace_identifier'>bash</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_identifier'>gcc</span><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>本</span>
+</div><div class='ace_line'><span class='ace_identifier'>gcc</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>v</span>
+</div></div></div></code></pre>
+<p>补充：这条激活命令只对本次会话有效，重启会话后还是会变回原来的4.8.5版本，要想随意切换可按如下操作。</p>
+<p>首先，安装的devtoolset是在 /opt/rh 目录下的。</p>
+<p>每个版本的目录下面都有个 enable 文件，如果需要启用某个版本，只需要执行</p>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_support ace_function ace_builtin'>source</span> .<span class='ace_keyword ace_operator'>/</span><span class='ace_support ace_function ace_builtin'>enable</span>
+</div></div></div></code></pre>
+<p>所以要想切换到某个版本，只需要执行</p>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_support ace_function ace_builtin'>source</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>opt</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>rh</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>8</span><span class='ace_keyword ace_operator'>/</span><span class='ace_support ace_function ace_builtin'>enable</span>
+</div></div></div></code></pre>
+<p>直接替换旧的gcc</p>
+<p>旧的gcc是运行的 /usr/bin/gcc，所以将该目录下的gcc/g++替换为刚安装的新版本gcc软连接，免得每次enable</p>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>mv</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>gcc</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>gcc</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>4.8.5</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>ln</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>s</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>opt</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>rh</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>8</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>root</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>gcc</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>gcc</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>mv</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>g</span><span class='ace_keyword ace_operator'>++</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>g</span><span class='ace_keyword ace_operator'>++-</span><span class='ace_constant ace_numeric'>4.8.5</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>ln</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>s</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>opt</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>rh</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>devtoolset</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>8</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>root</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>g</span><span class='ace_keyword ace_operator'>++</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>usr</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>bin</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>g</span><span class='ace_keyword ace_operator'>++</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>gcc</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_identifier'>version</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>g</span><span class='ace_keyword ace_operator'>++</span> <span class='ace_keyword ace_operator'>--</span><span class='ace_identifier'>version</span>
+</div></div></div></code></pre>
+<h3>5.从 /boot 目录将现有版本的内核编译config配置文件拷过来到放到新的内核源码解压目录内并重命名为.config的隐藏文件(这个文件保存了在安装系统时内核所安装的模块配置信，否则需要重新手动指定每一个模块的编译配置)</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_support ace_function ace_builtin'>cd</span> <span class='ace_identifier'>linux</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.15.35</span><span class='ace_keyword ace_operator'>/</span>
+</div><div class='ace_line'><span class='ace_identifier'>cp</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>boot</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>config</span><span class='ace_keyword ace_operator'>-</span><span class='ace_variable'>$</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>uname</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>r</span><span class='ace_paren ace_rparen'>)</span> .<span class='ace_keyword ace_operator'>/</span>.<span class='ace_identifier'>config</span>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>或</span><span class='ace_cjk' style='width:NaNpx'>者</span><span class='ace_cjk' style='width:NaNpx'>使</span><span class='ace_cjk' style='width:NaNpx'>用</span>
+</div><div class='ace_line'><span class='ace_identifier'>cp</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>boot</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>config</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>3.10.0</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>1160.</span><span class='ace_identifier'>el7</span>.<span class='ace_identifier'>x86_64</span> .<span class='ace_keyword ace_operator'>/</span>.<span class='ace_identifier'>config</span>
+</div></div></div></code></pre>
+<h3>6.运行 make menuconfig，开启文本界面的编译选项菜单窗口，可以对内核加载的模块编译选项进行调整，如修改编译后的内核名称、新添加之前系统缺少的模块等</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_support ace_function ace_builtin'>cd</span> <span class='ace_identifier'>linux</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.15.35</span><span class='ace_keyword ace_operator'>/</span>
+</div><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_identifier'>menuconfig</span>
+</div><div class='ace_line'><span class='ace_identifier'>General</span> <span class='ace_identifier'>setup</span> <span class='ace_keyword ace_operator'>---></span><span class='ace_keyword'>local</span> <span class='ace_variable'>version</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>append</span> <span class='ace_identifier'>to</span> <span class='ace_identifier'>kernel</span> <span class='ace_identifier'>release</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>修</span><span class='ace_cjk' style='width:NaNpx'>改</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>名</span><span class='ace_cjk' style='width:NaNpx'>称</span><span class='ace_identifier'>_zhiming</span>.<span class='ace_identifier'>su</span>@<span class='ace_identifier'>qq</span>.<span class='ace_identifier'>com</span>
+</div><div class='ace_line'><span class='ace_identifier'>File</span> <span class='ace_identifier'>systems</span> <span class='ace_keyword ace_operator'>---></span><span class='ace_identifier'>DOS</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>FAT</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>NT</span> <span class='ace_identifier'>Filesystems</span> <span class='ace_keyword ace_operator'>---></span><span class='ace_identifier'>NTFS</span> <span class='ace_identifier'>file</span> <span class='ace_identifier'>system</span> <span class='ace_identifier'>support</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>新</span><span class='ace_cjk' style='width:NaNpx'>添</span><span class='ace_cjk' style='width:NaNpx'>加</span><span class='ace_identifier'>NTFS</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>件</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>支</span><span class='ace_cjk' style='width:NaNpx'>持</span><span class='ace_cjk' style='width:NaNpx'>模</span><span class='ace_cjk' style='width:NaNpx'>块</span>
+</div></div></div></code></pre>
+<h3>7.编译内核，PS：时间较长，根据硬件决定，一般1个小时</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>j</span> <span class='ace_keyword ace_operator'>`</span><span class='ace_identifier'>cat</span> <span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>proc</span><span class='ace_keyword ace_operator'>/</span><span class='ace_identifier'>cpuinfo</span> <span class='ace_keyword ace_operator'>|</span> <span class='ace_identifier'>grep</span> <span class='ace_string ace_start'>&#39;</span><span class='ace_string'>model name</span><span class='ace_string ace_end'>&#39;</span><span class='ace_keyword ace_operator'>|</span><span class='ace_identifier'>wc</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>l</span><span class='ace_keyword ace_operator'>`</span>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>或</span><span class='ace_cjk' style='width:NaNpx'>者</span>
+</div><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>j</span> <span class='ace_variable'>$</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>nproc</span><span class='ace_paren ace_rparen'>)</span>
+</div><div class='ace_line'><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>j</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>指</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>编</span><span class='ace_cjk' style='width:NaNpx'>译</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>使</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_identifier'>CPU</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>心</span><span class='ace_cjk' style='width:NaNpx'>数</span>
+</div></div></div></code></pre>
+<h3>8.编译安装模块</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>编</span><span class='ace_cjk' style='width:NaNpx'>译</span><span class='ace_cjk' style='width:NaNpx'>完</span><span class='ace_cjk' style='width:NaNpx'>成</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_identifier'>make</span> <span class='ace_identifier'>modules_install</span> <span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>核</span><span class='ace_cjk' style='width:NaNpx'>模</span><span class='ace_cjk' style='width:NaNpx'>块</span>
+</div><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_identifier'>modules_install</span>
+</div></div></div></code></pre>
+<h3>9.安装内核核心文件</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_identifier'>install</span>
+</div></div></div></code></pre>
+<h3>10.制作成内核RPM文件</h3>
+<pre><code class="language-sh"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_identifier'>yum</span> <span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>y</span> <span class='ace_identifier'>install</span> <span class='ace_identifier'>rpmdevtools</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>装</span><span class='ace_identifier'>RPM</span><span class='ace_cjk' style='width:NaNpx'>打</span><span class='ace_cjk' style='width:NaNpx'>包</span><span class='ace_cjk' style='width:NaNpx'>工</span><span class='ace_cjk' style='width:NaNpx'>具</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_support ace_function ace_builtin'>cd</span> <span class='ace_identifier'>linux</span><span class='ace_keyword ace_operator'>-</span><span class='ace_constant ace_numeric'>5.15.35</span><span class='ace_keyword ace_operator'>/</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_identifier'>rpm</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>pkg</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>同</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>构</span><span class='ace_cjk' style='width:NaNpx'>建</span><span class='ace_cjk' style='width:NaNpx'>源</span><span class='ace_cjk' style='width:NaNpx'>和</span><span class='ace_cjk' style='width:NaNpx'>二</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>制</span><span class='ace_identifier'>RPM</span><span class='ace_cjk' style='width:NaNpx'>软</span><span class='ace_cjk' style='width:NaNpx'>件</span><span class='ace_cjk' style='width:NaNpx'>包</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>或</span><span class='ace_cjk' style='width:NaNpx'>者</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_identifier'>make</span> <span class='ace_identifier'>binrpm</span><span class='ace_keyword ace_operator'>-</span><span class='ace_identifier'>pkg</span>  <span class='ace_keyword ace_operator'>//</span><span class='ace_cjk' style='width:NaNpx'>仅</span><span class='ace_cjk' style='width:NaNpx'>构</span><span class='ace_cjk' style='width:NaNpx'>建</span><span class='ace_cjk' style='width:NaNpx'>二</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>制</span><span class='ace_identifier'>RPM</span><span class='ace_cjk' style='width:NaNpx'>软</span><span class='ace_cjk' style='width:NaNpx'>件</span><span class='ace_cjk' style='width:NaNpx'>包</span>
+</div></div></div></code></pre>
+<h3>11.根据方法一调整默认内核文件</h3>
+
+        </article>
+      </body>
+      </html>
