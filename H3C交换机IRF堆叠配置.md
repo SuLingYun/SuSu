@@ -81,3 +81,5 @@
 ### dis link-aggregation summary 查看端口组信息
 
 ### dis link-aggregation verbose 查看端口组具体成员
+
+### display lldp neighbor-information list 查看邻居接口
