@@ -96,3 +96,8 @@ mysql> show master logs;
 ```sh
 mysql> flush logs;
 ```
+## 删除所有二进制日志，并重新(MysqL-bin.000001)开始记录,然后可以通过如下代码查看数据库所有日志文件：
+
+```sh
+mysql> reset master;
+```
